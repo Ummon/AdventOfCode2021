@@ -1,12 +1,20 @@
 use std::env;
+use std::fs;
 use std::time::Instant;
 
 mod common;
 mod day01;
+mod day02;
 
 fn day01() -> String {
     let report = common::read_list_of_numbers("data/day01.input", "\n");
     format!("part1: {}, part2: {}", day01::count_number_of_decreased_values(&report, 1), day01::count_number_of_decreased_values(&report, 3))
+}
+
+fn day02() -> String {
+    let movements = day02::parse_movements(&fs::read_to_string("data/day02.input").unwrap());
+    let final_position = day02::get_final_position(&movements);
+    format!("part1: {}, part2: {}", final_position.horizontal * final_position.depth, "")
 }
 
 fn format_micros(t: u128) -> String {
@@ -29,6 +37,7 @@ fn main() {
 
     let days: Vec<fn() -> String> = vec!(
         day01,
+        day02,
     );
 
     let args: Vec<String> = env::args().skip(1).collect();
