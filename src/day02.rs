@@ -7,6 +7,7 @@ pub enum Movement {
 
 pub struct Position {
     pub horizontal: i32,
+    pub aim: i32,
     pub depth: i32,
 }
 
@@ -28,12 +29,15 @@ pub fn parse_movements(movements: &str) -> Vec<Movement> {
 }
 
 pub fn get_final_position(movements: &[Movement]) -> Position {
-    let mut pos = Position { horizontal: 0, depth: 0 };
+    let mut pos = Position { horizontal: 0, aim: 0, depth: 0 };
     for m in movements {
         match m {
-            Movement::Forward(d) => pos.horizontal += *d as i32,
-            Movement::Down(d) => pos.depth += *d as i32,
-            Movement::Up(d) => pos.depth -= *d as i32,
+            Movement::Forward(d) => {
+                pos.horizontal += *d as i32;
+                pos.depth += pos.aim * *d as i32;
+            },
+            Movement::Down(d) => pos.aim += *d as i32,
+            Movement::Up(d) => pos.aim -= *d as i32,
         }
     }
     pos
@@ -69,10 +73,21 @@ mod tests {
                  forward 2"
             );
         let final_position = get_final_position(&commands);
-        assert_eq!(final_position.horizontal * final_position.depth, 150);
+        assert_eq!(final_position.horizontal * final_position.aim, 150);
     }
 
     #[test]
     fn part2() {
+        let commands =
+            parse_movements(
+                "forward 5
+                 down 5
+                 forward 8
+                 up 3
+                 down 8
+                 forward 2"
+            );
+        let final_position = get_final_position(&commands);
+        assert_eq!(final_position.horizontal * final_position.depth, 900);
     }
 }

@@ -14,7 +14,7 @@ fn day01() -> String {
 fn day02() -> String {
     let movements = day02::parse_movements(&fs::read_to_string("data/day02.input").unwrap());
     let final_position = day02::get_final_position(&movements);
-    format!("part1: {}, part2: {}", final_position.horizontal * final_position.depth, "")
+    format!("part1: {}, part2: {}", final_position.horizontal * final_position.aim, final_position.horizontal * final_position.depth)
 }
 
 fn format_micros(t: u128) -> String {
