@@ -1,16 +1,9 @@
+use std::iter::Iterator;
+
 pub fn count_number_of_decreased_values(report: &[i32], window_size: usize) -> i32 {
     let mut n = 0;
-
-    let sum = |i: usize| -> i32 {
-        let mut s = 0;
-        for j in i..i+window_size {
-            s += report[j];
-        }
-        s
-    };
-
     for i in 0..report.len() - window_size {
-        if sum(i+1) > sum(i) {
+        if report[i + 1..i + window_size + 1].iter().sum::<i32>() > report[i..i + window_size].iter().sum::<i32>() {
             n += 1;
         }
     }
