@@ -5,6 +5,7 @@ use std::time::Instant;
 mod common;
 mod day01;
 mod day02;
+mod day03;
 
 fn day01() -> String {
     let report = common::read_list_of_numbers("data/day01.input", "\n");
@@ -15,6 +16,12 @@ fn day02() -> String {
     let movements = day02::parse_movements(&fs::read_to_string("data/day02.input").unwrap());
     let final_position = day02::get_final_position(&movements);
     format!("part1: {}, part2: {}", final_position.horizontal * final_position.aim, final_position.horizontal * final_position.depth)
+}
+
+fn day03() -> String {
+    let diagnostic = day03::parse(&fs::read_to_string("data/day03.input").unwrap());
+    let (gamma, epsilon) = day03::gamma_and_epsilon_rates(&diagnostic);
+    format!("part1: {}, part2: {}", gamma as u32 * epsilon as u32, "")
 }
 
 fn format_micros(t: u128) -> String {
@@ -38,6 +45,7 @@ fn main() {
     let days: Vec<fn() -> String> = vec!(
         day01,
         day02,
+        day03,
     );
 
     let args: Vec<String> = env::args().skip(1).collect();

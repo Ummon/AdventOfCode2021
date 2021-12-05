@@ -22,7 +22,7 @@ pub fn parse_movements(movements: &str) -> Vec<Movement> {
                 "forward" => Movement::Forward(distance),
                 "down" => Movement::Down(distance),
                 "up" => Movement::Up(distance),
-                _ => Movement::Forward(0)
+                unknown_command => panic!("Unknown command: {}", unknown_command),
             }
         })
         .collect()
